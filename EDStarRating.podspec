@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'QuartzCore'
   s.author       = { "Ernesto García" => "ernesto@cocoawithchurros.com" }
-  s.source       = { :git => "https://github.com/erndev/EDStarRating.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/paulpilone/EDStarRating.git", :tag => s.version.to_s }
   s.source_files = 'EDStarRating'
   s.license      = {
      :type => 'MIT',

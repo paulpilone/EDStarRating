@@ -33,7 +33,7 @@
 {
     maxRating=5.0;
     _rating=0.0;
-    horizontalMargin=10.0;
+    horizontalMargin=0;
     displayMode = EDStarRatingDisplayFull;
     halfStarThreshold=ED_DEFAULT_HALFSTAR_THRESHOLD;
     
@@ -113,18 +113,25 @@
     [self setNeedsDisplay];
 }
 
+- (void)setMaxRating:(NSInteger)value
+{
+    maxRating = value;
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsDisplay];
+}
+
 #pragma mark -
 #pragma mark Drawing
 -(CGPoint)pointOfStarAtPosition:(NSInteger)position highlighted:(BOOL)hightlighted
 {
     CGSize size = hightlighted?starHighlightedImage.size:starImage.size;
     
-    NSInteger starsSpace = self.bounds.size.width - 2*horizontalMargin;
+    //NSInteger starsSpace = self.bounds.size.width - 2*horizontalMargin;
     
     NSInteger interSpace = 0;
-    interSpace = maxRating-1>0?(starsSpace - (maxRating)*size.width)/(maxRating-1):0;
-    if( interSpace <0 )
-        interSpace=0;
+    //interSpace = maxRating-1>0?(starsSpace - (maxRating)*size.width)/(maxRating-1):0;
+    //if( interSpace <0 )
+    //    interSpace=0;
     CGFloat x = horizontalMargin + size.width*position;
     if( position >0 )
         x+=interSpace*position;
@@ -335,4 +342,15 @@
         self.returnBlock(self.rating);
     
 }
+
+- (NSSize)intrinsicContentSize
+{
+    return NSMakeSize(maxRating * starHighlightedImage.size.width, starHighlightedImage.size.height);
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+    return [self editable] ? NSPointInRect(aPoint, [self frame]) ? self : nil : nil;
+}
+
 @end
